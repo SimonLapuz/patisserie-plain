@@ -1,0 +1,714 @@
+/* =====================================================================
+   FILE NAME : style.css
+   PROJECT   : Pâtisserie Plain - E-Commerce Website
+   COURSE    : ITE 011 - Introduction to Computing | GROUP 3
+
+   This is the EXTERNAL style sheet. Both index.html and developers.html
+   use it so every page has the same look.
+
+   QUICK EDIT GUIDE
+   - Change colors   : edit the values in ":root" just below.
+   - Change fonts    : edit --serif and --sans.
+   - Card layout     : search for ".card".
+   ===================================================================== */
+
+/* ---------- 1. COLORS AND FONTS (edit here) ---------- */
+:root {
+  --paper:     #fbfdf9;   /* page background */
+  --mint:      #e6f1e0;   /* soft green sections */
+  --pistachio: #cfe3c7;   /* macaron green */
+  --leaf:      #24402f;   /* dark green: headings, buttons */
+  --rose:      #f3cdd4;   /* macaron pink */
+  --berry:     #b0325a;   /* main action color */
+  --gold:      #c4a05a;   /* thin ribbon lines */
+  --ink:       #2b2a28;   /* body text */
+  --mute:      #5b685f;   /* softer text */
+
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:  "Jost", "Segoe UI", Tahoma, Arial, sans-serif;
+
+  --page-width: 1120px;
+}
+
+/* ---------- 2. BASICS ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-padding-top: 5.5rem;       /* keeps headings visible below the sticky menu */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  color: var(--leaf);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 .5rem;
+}
+h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
+h3 { font-size: 1.9rem; }
+h4 { font-size: 1.4rem; }
+
+p { margin: 0 0 1rem; }
+a { color: var(--berry); }
+img, video, iframe { max-width: 100%; }
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* The hidden radio buttons that remember which screen you are on */
+.switch {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* ---------- 3. HEADER + MENU ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .4rem 1.5rem;
+  padding: .6rem max(1.25rem, calc((100% - var(--page-width) + 2.5rem) / 2));
+  background: var(--paper);
+  border-bottom: 1px solid var(--gold);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  text-decoration: none;
+}
+.brand-name {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--leaf);
+}
+
+/* Logo box. The pink circle is the placeholder shown until images/logo.png exists. */
+.logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--rose);
+  color: transparent;
+  font-size: 0;                     /* hides the alt text while the image is missing */
+}
+
+.main-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .2rem .3rem;
+}
+.main-menu a,
+.nav-cart {
+  padding: .45rem .85rem;
+  border-radius: 999px;
+  color: var(--leaf);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+.main-menu a:hover,
+.main-menu a[aria-current="page"] { background: var(--mint); }
+.nav-cart {
+  background: var(--leaf);
+  color: #fff;
+}
+.nav-cart:hover { background: var(--berry); }
+
+/* ---------- 4. BUTTONS ---------- */
+.btn {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  border: 1.5px solid var(--leaf);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--leaf);
+  font: 600 1rem var(--sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--mint); }
+.btn-primary {
+  background: var(--berry);
+  border-color: var(--berry);
+  color: #fff;
+}
+.btn-primary:hover { background: #8f2548; border-color: #8f2548; }
+.btn-light {
+  background: #fff;
+  border-color: #fff;
+  color: var(--leaf);
+}
+.btn-light:hover { background: var(--rose); border-color: var(--rose); }
+
+/* ---------- 5. HERO ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 4.5rem max(1.25rem, calc((100% - var(--page-width) + 2.5rem) / 2));
+  background: var(--mint);
+}
+.hero h1 {
+  font-size: clamp(3.4rem, 9vw, 7rem);
+  font-weight: 500;
+  line-height: .92;
+  letter-spacing: -.01em;
+  margin-bottom: 1.2rem;
+}
+.lede {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 1.6rem;
+}
+
+/* Double-decker macaron drawn with CSS only */
+.macaron {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(320px, 80%);
+  margin: 0 auto;
+  filter: drop-shadow(0 18px 18px rgba(36, 64, 47, .18));
+}
+.macaron .shell {
+  display: block;
+  width: 100%;
+  height: 86px;
+  background: var(--macaron-shell, var(--rose));
+  box-shadow: inset 0 -9px 0 rgba(36, 64, 47, .08), inset 0 9px 0 rgba(255, 255, 255, .35);
+}
+.macaron .shell:first-child { border-radius: 160px 160px 16px 16px; }
+.macaron .shell:last-child  { border-radius: 16px 16px 160px 160px; }
+.macaron .shell.alt {
+  height: 62px;
+  border-radius: 14px;
+  background: var(--macaron-shell-2, var(--pistachio));
+}
+.macaron .filling {
+  display: block;
+  width: 93%;
+  height: 22px;
+  margin: -3px 0;
+  border-radius: 12px;
+  background: #fffdf8;
+  box-shadow: inset 0 -4px 0 rgba(196, 160, 90, .25);
+}
+
+/* ---------- 6. GENERAL SECTIONS ---------- */
+.section {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 4.5rem 1.25rem 1rem;
+}
+.section-intro {
+  max-width: 40rem;
+  color: var(--mute);
+  font-size: 1.1rem;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 3rem;
+  align-items: start;
+}
+.about p { max-width: 38rem; font-size: 1.08rem; }
+.media figure { margin: 0 0 1.5rem; }
+.media video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--pistachio);
+  border-radius: 8px;
+}
+.media audio { display: block; width: 100%; }
+.media figcaption {
+  margin-top: .4rem;
+  font-size: .92rem;
+  color: var(--mute);
+}
+
+/* ---------- 7. PRODUCTS ---------- */
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1.2rem 0 .5rem;
+}
+.subnav a {
+  padding: .4rem 1rem;
+  border: 1px solid var(--leaf);
+  border-radius: 999px;
+  color: var(--leaf);
+  text-decoration: none;
+  font-weight: 500;
+}
+.subnav a:hover { background: var(--mint); }
+
+.category { margin-top: 3.2rem; }
+.category-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .2rem 1.2rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--gold);
+}
+.category-head h3 { margin: 0; }
+.category-head p { margin: 0; color: var(--mute); }
+
+/* Each category gets its own pastel color for empty image boxes */
+.cat-cakes  { --tint: #f6dce1; }
+.cat-pies   { --tint: #dcebd5; }
+.cat-drinks { --tint: #e6def0; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.4rem;
+}
+
+/* ----- Product card ----- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #cdd9c8;
+  border-radius: 10px;
+}
+.card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--tint, var(--pistachio));
+  color: var(--leaf);
+  font-size: .9rem;
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: .7rem;
+  padding: 1rem 1.1rem 1.2rem;
+}
+.card h4 { margin: 0; }
+.desc {
+  margin: 0;
+  color: var(--mute);
+  font-size: .94rem;
+  line-height: 1.45;
+}
+
+/* A product that is in the cart gets a berry outline and a tag */
+.card:has(.opt-add:checked) {
+  border-color: var(--berry);
+  box-shadow: 0 0 0 2px var(--berry);
+}
+.card:has(.opt-add:checked)::after {
+  content: "In your cart";
+  position: absolute;
+  top: .7rem;
+  left: .7rem;
+  padding: .2rem .7rem;
+  border-radius: 999px;
+  background: var(--berry);
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+/* ----- Option chips (size, quantity, order type) ----- */
+.choices {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem;
+  margin-top: auto;
+}
+.lbl {
+  flex-basis: 100%;
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--mute);
+}
+.chip-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.chip-input + label {
+  padding: .3rem .85rem;
+  border: 1px solid var(--leaf);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--leaf);
+  font-size: .9rem;
+  cursor: pointer;
+  user-select: none;
+}
+.chip-input + label:hover { background: var(--mint); }
+.chip-input:checked + label {
+  background: var(--leaf);
+  color: #fff;
+}
+.opt-add:checked + label {
+  background: var(--berry);
+  border-color: var(--berry);
+}
+.chip-input:focus-visible + label {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Quantity row only shows after a size is picked */
+.qty { display: none; margin-top: 0; }
+.card:has(.opt-add:checked) .qty { display: flex; }
+
+/* ---------- 8. LOCATION + REFERENCES ---------- */
+.find-grid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 2rem;
+  align-items: start;
+}
+address {
+  margin: 0 0 1.2rem;
+  font-style: normal;
+  font-size: 1.1rem;
+}
+.find-grid iframe {
+  width: 100%;
+  height: 320px;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  background: var(--mint);
+}
+.references ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--mute);
+  font-size: .95rem;
+}
+
+/* ---------- 8b. CONTACT US ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+.contact-info {
+  display: grid;
+  gap: .2rem;
+  margin: 0;
+}
+.contact-info dt {
+  margin-top: 1rem;
+  color: var(--mute);
+  font-size: .9rem;
+  font-weight: 500;
+}
+.contact-info dt:first-child { margin-top: 0; }
+.contact-info dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--leaf);
+}
+.contact-form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.6rem;
+  background: var(--mint);
+  border-radius: 12px;
+}
+.contact-form .btn { justify-self: start; }
+.field select {
+  width: 100%;
+  padding: .65rem .8rem;
+  border: 1px solid #9fb396;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: 400 1rem var(--sans);
+}
+
+/* ---------- 9. FOOTER ---------- */
+.site-footer {
+  margin-top: 5rem;
+  padding: 2rem max(1.25rem, calc((100% - var(--page-width) + 2.5rem) / 2)) 6rem;
+  background: var(--leaf);
+  color: #e8f0e4;
+  font-size: .95rem;
+}
+.site-footer p { margin: 0 0 .4rem; }
+.site-footer a { color: var(--rose); }
+
+/* ---------- 10. CART BAR (floating) ---------- */
+.cartbar {
+  display: none;                    /* turned on when something is in the cart */
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 50;
+  transform: translateX(-50%);
+  align-items: center;
+  gap: 1rem;
+  max-width: calc(100% - 1.5rem);
+  padding: .55rem .55rem .55rem 1.4rem;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(36, 64, 47, .35);
+}
+body:has(.opt-add:checked) .cartbar { display: flex; }
+.cartbar-info { font-weight: 500; }
+.cartbar-info::before {
+  content: "Cart: " counter(items) " item(s), \20B1" counter(total);
+}
+.btn-light { padding: .55rem 1.2rem; }
+
+/* ---------- 11. SCREENS: CART / CHECKOUT / PAID ---------- */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: auto;
+  padding: 1rem;
+  background: rgba(36, 64, 47, .6);
+}
+body:has(#step-cart:checked)       .overlay-cart,
+body:has(#step-checkout:checked)   .overlay-checkout,
+body:has(#step-paid-cash:checked)  .overlay-paid,
+body:has(#step-paid-card:checked)  .overlay-paid { display: block; }
+
+/* Stop the shop from scrolling behind an open screen */
+body:has(.switch:not(#step-shop):checked) { overflow: hidden; }
+
+.panel {
+  width: min(640px, 100%);
+  margin: 2rem auto;
+  padding: 1.8rem;
+  background: var(--paper);
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+}
+.panel h2 { margin-bottom: 1rem; }
+
+/* Cart lines (shown one by one by cart-rules.css) */
+.lines { margin: 0; padding: 0; list-style: none; }
+.line {
+  display: none;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  padding: .8rem 0;
+  border-bottom: 1px dashed #b9c9b3;
+}
+.line-name { font-weight: 500; }
+.line-name em {
+  display: block;
+  font-style: normal;
+  font-size: .88rem;
+  color: var(--mute);
+}
+.line-qty { color: var(--mute); }
+.line-price { min-width: 5.5rem; text-align: right; font-weight: 600; }
+
+/* Empty cart message vs. items */
+.empty-msg { color: var(--mute); font-size: 1.05rem; }
+body:has(.opt-add:checked) .empty-msg { display: none; }
+.cart-footer { display: none; }
+body:has(.opt-add:checked) .cart-footer { display: block; }
+.btn-checkout { display: none; }
+body:has(.opt-add:checked) .btn-checkout { display: inline-block; }
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 1.2rem 0 0;
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--leaf);
+}
+.total-amount::before { content: "\20B1" counter(total); }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .8rem;
+  margin-top: 1.6rem;
+}
+
+/* Checkout form */
+.fields { display: grid; gap: 1rem; margin-top: 1.2rem; }
+.field {
+  display: grid;
+  gap: .3rem;
+  font-weight: 500;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  padding: .65rem .8rem;
+  border: 1px solid #9fb396;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: 400 1rem var(--sans);
+}
+.field textarea { resize: vertical; }
+.check { display: flex; align-items: center; gap: .5rem; font-weight: 500; }
+.check input { width: 1.1rem; height: 1.1rem; accent-color: var(--berry); }
+.fields .choices { margin-top: 0; }
+
+.pay-title { margin-top: 2rem; }
+.pay-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.pay-btn {
+  display: grid;
+  gap: .2rem;
+  padding: 1.2rem 1.1rem;
+  border: 2px solid var(--leaf);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--leaf);
+  cursor: pointer;
+}
+.pay-btn strong { font-family: var(--serif); font-size: 1.5rem; line-height: 1.1; }
+.pay-btn span { font-size: .9rem; color: var(--mute); }
+.pay-btn:hover { background: var(--berry); border-color: var(--berry); }
+.pay-btn:hover strong,
+.pay-btn:hover span { color: #fff; }
+
+/* Paid screen */
+.panel-paid { text-align: center; }
+.panel-paid .actions { justify-content: center; }
+.panel-paid .total { justify-content: center; gap: 1rem; font-size: 1.5rem; }
+.paid-method { display: none; margin: 0; font-size: 1.1rem; color: var(--mute); }
+body:has(#step-paid-cash:checked) .paid-cash { display: block; }
+body:has(#step-paid-card:checked) .paid-card { display: block; }
+
+.checkmark {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 1.2rem;
+  border-radius: 50%;
+  background: var(--pistachio);
+}
+.checkmark::before {
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 17px;
+  width: 22px;
+  height: 42px;
+  border: solid var(--leaf);
+  border-width: 0 7px 7px 0;
+  transform: rotate(45deg);
+}
+.overlay-paid .checkmark { animation: pop .45s ease-out; }
+@keyframes pop {
+  0%   { transform: scale(.4); opacity: 0; }
+  70%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* ---------- 12. DEVELOPERS PAGE ---------- */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.profile {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #cdd9c8;
+  border-radius: 10px;
+}
+.profile img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--rose);
+  color: var(--leaf);
+  font-size: .9rem;
+}
+.profile-body { padding: 1rem 1.1rem 1.2rem; }
+.profile h3 { font-size: 1.5rem; }
+.profile dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .2rem .8rem;
+  margin: .6rem 0 0;
+}
+.profile dt { color: var(--mute); }
+.profile dd { margin: 0; font-weight: 500; }
+.back-link { margin-top: 3rem; }
+
+/* ---------- 13. PHONES AND SMALL SCREENS ---------- */
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; padding-top: 3rem; padding-bottom: 3rem; }
+  .macaron { width: min(240px, 70%); }
+  .about-grid,
+  .find-grid,
+  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .pay-options { grid-template-columns: 1fr; }
+  .panel { padding: 1.3rem; margin: 1rem auto; }
+  .brand-name { font-size: 1.4rem; }
+  .cartbar { width: calc(100% - 1.5rem); justify-content: space-between; }
+}
+
+/* ---------- 14. RESPECT "REDUCE MOTION" SETTINGS ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .overlay-paid .checkmark { animation: none; }
+}
