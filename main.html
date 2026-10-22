@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  FILE NAME : index.html
+  PROJECT   : P&acirc;tisserie Plain - E-Commerce Website
+  COURSE    : ITE 011 - Introduction to Computing
+  GROUP 3   : Lapuz, Simon Patrick P. / Matillano, Rey Josef P. /
+              Mondina, John Greg F. / Rea, Jazzle Dave N. /
+              Serafica, John Jerome M.
+  PROGRAM/SECTION : BSIT / IT11S10
+    style.css        - the look of the website
+    cart-rules.css   - the cart math (counters)
+    images/          - logo + product photos
+    media/           - video + audio
+  =====================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P&acirc;tisserie Plain | Cakes, Pies and Beverages</title>
+
+  <!-- Optional fancy fonts (needs internet). If offline, Georgia / Segoe UI are used instead. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS METHOD 1: EXTERNAL style sheets (separate .css files) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cart-rules.css">
+
+  <!-- CSS METHOD 2: INTERNAL style sheet (written inside the page) -->
+  <style>
+    /* Change these two colors to recolor the macaron in the hero section */
+    :root {
+      --macaron-shell: #f3cdd4;
+      --macaron-shell-2: #cfe3c7;
+    }
+    .hero-note { font-style: italic; color: var(--leaf); }
+  </style>
+</head>
+
+<body>
+<!-- The whole shop lives inside ONE form so the "Start a new order" button can reset everything. -->
+<form id="order-form">
+
+  <!-- =====================================================
+       PAGE STEPS (hidden radio buttons)
+       These decide which screen is showing:
+       shop -> cart -> checkout -> paid.   Do not delete them.
+       ===================================================== -->
+  <input class="switch" type="radio" name="step" id="step-shop" checked>
+  <input class="switch" type="radio" name="step" id="step-cart">
+  <input class="switch" type="radio" name="step" id="step-checkout">
+  <input class="switch" type="radio" name="step" id="step-paid-cash">
+  <input class="switch" type="radio" name="step" id="step-paid-card">
+
+  <!-- ===================== HEADER + MENU ===================== -->
+  <header class="site-header" id="home">
+    <a class="brand" href="#home">
+      <!-- >>> INSERT YOUR COMPANY LOGO HERE: save it as  images/logo.png  <<< -->
+      <img class="logo" src="images/logo.png" alt="P&acirc;tisserie Plain logo">
+      <span class="brand-name">P&acirc;tisserie Plain</span>
+    </a>
+    <nav class="main-menu" aria-label="Main menu">
+      <a href="#home">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#products">Products</a>
+      <a href="#find-us">Find Us</a>
+      <a href="#contact">Contact Us</a>
+      <a href="developers.html">Developers</a>
+      <label class="nav-cart" for="step-cart">Cart</label>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>P&acirc;tisserie Plain</h1>
+        <!-- CSS METHOD 3: INLINE style (written directly inside the tag) -->
+        <p class="lede" style="max-width: 32rem;">Cakes, pies and beverages, baked for slow afternoons.</p>
+        <p class="hero-note">Pick your treats, review your cart, then check out.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#products">Browse the menu</a>
+          <a class="btn" href="#about">Our story</a>
+        </div>
+      </div>
+      <!-- Decorative double-decker macaron, drawn with pure CSS (no image needed) -->
+      <div class="macaron" aria-hidden="true">
+        <span class="shell"></span><span class="filling"></span>
+        <span class="shell alt"></span><span class="filling"></span>
+        <span class="shell"></span>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT US ===================== -->
+    <section class="section about" id="about">
+      <h2>About us</h2>
+      <div class="about-grid">
+        <article>
+          <h3>Company background</h3>
+          <p>P&acirc;tisserie Plain was inspired by Ladur&eacute;e, the Parisian bakery founded in 1862. Ladur&eacute;e became famous for inventing the modern double-decker macaron and grew into a global symbol of luxury and elegance.</p>
+          <p>Following that example, our group started baking its own pastries and named them P&acirc;tisserie Plain. Today we serve famous cakes, pies and beverages, each one made to feel like a small celebration.</p>
+          <!-- EDIT THIS TEXT to match your own company story. -->
+        </article>
+
+        <aside class="media">
+          <!-- ===== VIDEO =====
+               >>> INSERT YOUR VIDEO HERE: save it as  media/promo.mp4
+               (you can also add a poster picture: images/video-poster.jpg) -->
+          <figure>
+            <video controls preload="metadata" poster="images/video-poster.jpg">
+              <source src="media/promo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <figcaption>Watch how we bake.</figcaption>
+          </figure>
+
+          <!-- ===== AUDIO =====
+               >>> INSERT YOUR AUDIO HERE: save it as  media/cafe-music.mp3 -->
+          <figure>
+            <audio controls preload="none">
+              <source src="media/cafe-music.mp3" type="audio/mpeg">
+              Your browser does not support the audio tag.
+            </audio>
+            <figcaption>Listen to our caf&eacute; playlist while you shop.</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== PRODUCTS ===================== -->
+    <section class="section products" id="products">
+      <h2>Products</h2>
+      <p class="section-intro">30 treats in three categories. Choose a size, choose how many, and it goes straight into your cart.</p>
+      <nav class="subnav" aria-label="Product categories">
+        <a href="#cakes">Cakes</a>
+        <a href="#pies">Pies</a>
+        <a href="#beverages">Beverages</a>
+      </nav>
+
+      <!-- ############################################################ -->
+      <!--                       CATEGORY: CAKES                           -->
+      <!-- ############################################################ -->
+      <div class="category" id="cakes">
+        <div class="category-head">
+          <h3>Cakes</h3>
+          <p>Sold by the slice or whole.</p>
+        </div>
+        <div class="grid cat-cakes">
+
+        <!-- ============ PRODUCT 1 of 30: STRAWBERRY CAKE ============ -->
+        <article class="card" id="strawberry-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/strawberry-cake.jpg  <<< -->
+          <img src="images/strawberry-cake.jpg" alt="Strawberry Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Strawberry Cake</h4>
+            <p class="desc">Soft vanilla sponge layered with fresh strawberries and whipped cream.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Strawberry Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-strawberry-cake" id="strawberry-cake-none" checked>
+              <label for="strawberry-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-strawberry-cake" id="strawberry-cake-slice">
+              <label for="strawberry-cake-slice">Slice &#8369;299</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-strawberry-cake" id="strawberry-cake-whole">
+              <label for="strawberry-cake-whole">Whole &#8369;2,299</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Strawberry Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-strawberry-cake" id="strawberry-cake-q1" checked>
+              <label for="strawberry-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-strawberry-cake" id="strawberry-cake-q2">
+              <label for="strawberry-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-strawberry-cake" id="strawberry-cake-q3">
+              <label for="strawberry-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-strawberry-cake" id="strawberry-cake-q4">
+              <label for="strawberry-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-strawberry-cake" id="strawberry-cake-q5">
+              <label for="strawberry-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 2 of 30: BUTTER CAKE ============ -->
+        <article class="card" id="butter-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/butter-cake.jpg  <<< -->
+          <img src="images/butter-cake.jpg" alt="Butter Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Butter Cake</h4>
+            <p class="desc">A golden, tender crumb with a rich buttery flavor.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Butter Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-butter-cake" id="butter-cake-none" checked>
+              <label for="butter-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-butter-cake" id="butter-cake-slice">
+              <label for="butter-cake-slice">Slice &#8369;159</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-butter-cake" id="butter-cake-whole">
+              <label for="butter-cake-whole">Whole &#8369;1,199</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Butter Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-butter-cake" id="butter-cake-q1" checked>
+              <label for="butter-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-butter-cake" id="butter-cake-q2">
+              <label for="butter-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-butter-cake" id="butter-cake-q3">
+              <label for="butter-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-butter-cake" id="butter-cake-q4">
+              <label for="butter-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-butter-cake" id="butter-cake-q5">
+              <label for="butter-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 3 of 30: BLACK FOREST CAKE ============ -->
+        <article class="card" id="black-forest-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/black-forest-cake.jpg  <<< -->
+          <img src="images/black-forest-cake.jpg" alt="Black Forest Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Black Forest Cake</h4>
+            <p class="desc">Rich chocolate sponge layered with whipped cream, cherries and chocolate shavings.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Black Forest Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-black-forest-cake" id="black-forest-cake-none" checked>
+              <label for="black-forest-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-black-forest-cake" id="black-forest-cake-slice">
+              <label for="black-forest-cake-slice">Slice &#8369;229</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-black-forest-cake" id="black-forest-cake-whole">
+              <label for="black-forest-cake-whole">Whole &#8369;1,799</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Black Forest Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-black-forest-cake" id="black-forest-cake-q1" checked>
+              <label for="black-forest-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-black-forest-cake" id="black-forest-cake-q2">
+              <label for="black-forest-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-black-forest-cake" id="black-forest-cake-q3">
+              <label for="black-forest-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-black-forest-cake" id="black-forest-cake-q4">
+              <label for="black-forest-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-black-forest-cake" id="black-forest-cake-q5">
+              <label for="black-forest-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 4 of 30: CARROT CAKE ============ -->
+        <article class="card" id="carrot-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/carrot-cake.jpg  <<< -->
+          <img src="images/carrot-cake.jpg" alt="Carrot Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Carrot Cake</h4>
+            <p class="desc">Moist spiced cake with grated carrots and cream cheese frosting.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Carrot Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-carrot-cake" id="carrot-cake-none" checked>
+              <label for="carrot-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-carrot-cake" id="carrot-cake-slice">
+              <label for="carrot-cake-slice">Slice &#8369;139</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-carrot-cake" id="carrot-cake-whole">
+              <label for="carrot-cake-whole">Whole &#8369;1,099</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Carrot Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-carrot-cake" id="carrot-cake-q1" checked>
+              <label for="carrot-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-carrot-cake" id="carrot-cake-q2">
+              <label for="carrot-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-carrot-cake" id="carrot-cake-q3">
+              <label for="carrot-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-carrot-cake" id="carrot-cake-q4">
+              <label for="carrot-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-carrot-cake" id="carrot-cake-q5">
+              <label for="carrot-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 5 of 30: CHIFFON CAKE ============ -->
+        <article class="card" id="chiffon-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/chiffon-cake.jpg  <<< -->
+          <img src="images/chiffon-cake.jpg" alt="Chiffon Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Chiffon Cake</h4>
+            <p class="desc">Tall, light and airy, made with whipped egg whites.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Chiffon Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-chiffon-cake" id="chiffon-cake-none" checked>
+              <label for="chiffon-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-chiffon-cake" id="chiffon-cake-slice">
+              <label for="chiffon-cake-slice">Slice &#8369;179</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-chiffon-cake" id="chiffon-cake-whole">
+              <label for="chiffon-cake-whole">Whole &#8369;1,399</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Chiffon Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-chiffon-cake" id="chiffon-cake-q1" checked>
+              <label for="chiffon-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-chiffon-cake" id="chiffon-cake-q2">
+              <label for="chiffon-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-chiffon-cake" id="chiffon-cake-q3">
+              <label for="chiffon-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-chiffon-cake" id="chiffon-cake-q4">
+              <label for="chiffon-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-chiffon-cake" id="chiffon-cake-q5">
+              <label for="chiffon-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 6 of 30: RED VELVET CAKE ============ -->
+        <article class="card" id="red-velvet-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/red-velvet-cake.jpg  <<< -->
+          <img src="images/red-velvet-cake.jpg" alt="Red Velvet Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Red Velvet Cake</h4>
+            <p class="desc">Cocoa-kissed crimson layers with smooth cream cheese frosting.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Red Velvet Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-red-velvet-cake" id="red-velvet-cake-none" checked>
+              <label for="red-velvet-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-red-velvet-cake" id="red-velvet-cake-slice">
+              <label for="red-velvet-cake-slice">Slice &#8369;229</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-red-velvet-cake" id="red-velvet-cake-whole">
+              <label for="red-velvet-cake-whole">Whole &#8369;1,799</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Red Velvet Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-red-velvet-cake" id="red-velvet-cake-q1" checked>
+              <label for="red-velvet-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-red-velvet-cake" id="red-velvet-cake-q2">
+              <label for="red-velvet-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-red-velvet-cake" id="red-velvet-cake-q3">
+              <label for="red-velvet-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-red-velvet-cake" id="red-velvet-cake-q4">
+              <label for="red-velvet-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-red-velvet-cake" id="red-velvet-cake-q5">
+              <label for="red-velvet-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 7 of 30: GENOISE SPONGE CAKE ============ -->
+        <article class="card" id="genoise-sponge-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/genoise-sponge-cake.jpg  <<< -->
+          <img src="images/genoise-sponge-cake.jpg" alt="Genoise Sponge Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Genoise Sponge Cake</h4>
+            <p class="desc">The classic French sponge, delicate and ideal for layering.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Genoise Sponge Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-genoise-sponge-cake" id="genoise-sponge-cake-none" checked>
+              <label for="genoise-sponge-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-genoise-sponge-cake" id="genoise-sponge-cake-slice">
+              <label for="genoise-sponge-cake-slice">Slice &#8369;389</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-genoise-sponge-cake" id="genoise-sponge-cake-whole">
+              <label for="genoise-sponge-cake-whole">Whole &#8369;2,999</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Genoise Sponge Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-genoise-sponge-cake" id="genoise-sponge-cake-q1" checked>
+              <label for="genoise-sponge-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-genoise-sponge-cake" id="genoise-sponge-cake-q2">
+              <label for="genoise-sponge-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-genoise-sponge-cake" id="genoise-sponge-cake-q3">
+              <label for="genoise-sponge-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-genoise-sponge-cake" id="genoise-sponge-cake-q4">
+              <label for="genoise-sponge-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-genoise-sponge-cake" id="genoise-sponge-cake-q5">
+              <label for="genoise-sponge-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 8 of 30: CHEESE CAKE ============ -->
+        <article class="card" id="cheese-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/cheese-cake.jpg  <<< -->
+          <img src="images/cheese-cake.jpg" alt="Cheese Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Cheese Cake</h4>
+            <p class="desc">Creamy baked cheese cake on a buttery biscuit base.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Cheese Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-cheese-cake" id="cheese-cake-none" checked>
+              <label for="cheese-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-cheese-cake" id="cheese-cake-slice">
+              <label for="cheese-cake-slice">Slice &#8369;299</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-cheese-cake" id="cheese-cake-whole">
+              <label for="cheese-cake-whole">Whole &#8369;2,299</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Cheese Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-cheese-cake" id="cheese-cake-q1" checked>
+              <label for="cheese-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-cheese-cake" id="cheese-cake-q2">
+              <label for="cheese-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-cheese-cake" id="cheese-cake-q3">
+              <label for="cheese-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-cheese-cake" id="cheese-cake-q4">
+              <label for="cheese-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-cheese-cake" id="cheese-cake-q5">
+              <label for="cheese-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 9 of 30: ANGEL FOOD CAKE ============ -->
+        <article class="card" id="angel-food-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/angel-food-cake.jpg  <<< -->
+          <img src="images/angel-food-cake.jpg" alt="Angel Food Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Angel Food Cake</h4>
+            <p class="desc">A cloud-like cake of whipped egg whites, light and sweet.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Angel Food Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-angel-food-cake" id="angel-food-cake-none" checked>
+              <label for="angel-food-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-angel-food-cake" id="angel-food-cake-slice">
+              <label for="angel-food-cake-slice">Slice &#8369;229</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-angel-food-cake" id="angel-food-cake-whole">
+              <label for="angel-food-cake-whole">Whole &#8369;1,799</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Angel Food Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-angel-food-cake" id="angel-food-cake-q1" checked>
+              <label for="angel-food-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-angel-food-cake" id="angel-food-cake-q2">
+              <label for="angel-food-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-angel-food-cake" id="angel-food-cake-q3">
+              <label for="angel-food-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-angel-food-cake" id="angel-food-cake-q4">
+              <label for="angel-food-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-angel-food-cake" id="angel-food-cake-q5">
+              <label for="angel-food-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 10 of 30: MOUSSE CAKE ============ -->
+        <article class="card" id="mousse-cake">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/mousse-cake.jpg  <<< -->
+          <img src="images/mousse-cake.jpg" alt="Mousse Cake" loading="lazy">
+          <div class="card-body">
+            <h4>Mousse Cake</h4>
+            <p class="desc">Light and airy chocolate mousse layered over a soft sponge.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Mousse Cake">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-mousse-cake" id="mousse-cake-none" checked>
+              <label for="mousse-cake-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-mousse-cake" id="mousse-cake-slice">
+              <label for="mousse-cake-slice">Slice &#8369;179</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-mousse-cake" id="mousse-cake-whole">
+              <label for="mousse-cake-whole">Whole &#8369;1,399</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Mousse Cake">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-mousse-cake" id="mousse-cake-q1" checked>
+              <label for="mousse-cake-q1">1</label>
+              <input class="chip-input" type="radio" name="q-mousse-cake" id="mousse-cake-q2">
+              <label for="mousse-cake-q2">2</label>
+              <input class="chip-input" type="radio" name="q-mousse-cake" id="mousse-cake-q3">
+              <label for="mousse-cake-q3">3</label>
+              <input class="chip-input" type="radio" name="q-mousse-cake" id="mousse-cake-q4">
+              <label for="mousse-cake-q4">4</label>
+              <input class="chip-input" type="radio" name="q-mousse-cake" id="mousse-cake-q5">
+              <label for="mousse-cake-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        </div>
+      </div>
+
+      <!-- ############################################################ -->
+      <!--                       CATEGORY: PIES                            -->
+      <!-- ############################################################ -->
+      <div class="category" id="pies">
+        <div class="category-head">
+          <h3>Pies</h3>
+          <p>Sold by the slice or whole.</p>
+        </div>
+        <div class="grid cat-pies">
+
+        <!-- ============ PRODUCT 11 of 30: BUKO PIE ============ -->
+        <article class="card" id="buko-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/buko-pie.jpg  <<< -->
+          <img src="images/buko-pie.jpg" alt="Buko Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Buko Pie</h4>
+            <p class="desc">A Filipino favorite: young coconut custard in a flaky crust.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Buko Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-buko-pie" id="buko-pie-none" checked>
+              <label for="buko-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-buko-pie" id="buko-pie-slice">
+              <label for="buko-pie-slice">Slice &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-buko-pie" id="buko-pie-whole">
+              <label for="buko-pie-whole">Whole &#8369;1,499</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Buko Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-buko-pie" id="buko-pie-q1" checked>
+              <label for="buko-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-buko-pie" id="buko-pie-q2">
+              <label for="buko-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-buko-pie" id="buko-pie-q3">
+              <label for="buko-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-buko-pie" id="buko-pie-q4">
+              <label for="buko-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-buko-pie" id="buko-pie-q5">
+              <label for="buko-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 12 of 30: EGG PIE ============ -->
+        <article class="card" id="egg-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/egg-pie.jpg  <<< -->
+          <img src="images/egg-pie.jpg" alt="Egg Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Egg Pie</h4>
+            <p class="desc">Creamy baked egg custard with a golden top.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Egg Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-egg-pie" id="egg-pie-none" checked>
+              <label for="egg-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-egg-pie" id="egg-pie-slice">
+              <label for="egg-pie-slice">Slice &#8369;159</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-egg-pie" id="egg-pie-whole">
+              <label for="egg-pie-whole">Whole &#8369;1,199</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Egg Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-egg-pie" id="egg-pie-q1" checked>
+              <label for="egg-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-egg-pie" id="egg-pie-q2">
+              <label for="egg-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-egg-pie" id="egg-pie-q3">
+              <label for="egg-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-egg-pie" id="egg-pie-q4">
+              <label for="egg-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-egg-pie" id="egg-pie-q5">
+              <label for="egg-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 13 of 30: GUAPPLE PIE ============ -->
+        <article class="card" id="guapple-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/guapple-pie.jpg  <<< -->
+          <img src="images/guapple-pie.jpg" alt="Guapple Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Guapple Pie</h4>
+            <p class="desc">Fruity guapple filling baked in a buttery crust.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Guapple Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-guapple-pie" id="guapple-pie-none" checked>
+              <label for="guapple-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-guapple-pie" id="guapple-pie-slice">
+              <label for="guapple-pie-slice">Slice &#8369;149</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-guapple-pie" id="guapple-pie-whole">
+              <label for="guapple-pie-whole">Whole &#8369;1,099</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Guapple Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-guapple-pie" id="guapple-pie-q1" checked>
+              <label for="guapple-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-guapple-pie" id="guapple-pie-q2">
+              <label for="guapple-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-guapple-pie" id="guapple-pie-q3">
+              <label for="guapple-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-guapple-pie" id="guapple-pie-q4">
+              <label for="guapple-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-guapple-pie" id="guapple-pie-q5">
+              <label for="guapple-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 14 of 30: CHICKEN POT PIE ============ -->
+        <article class="card" id="chicken-pot-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/chicken-pot-pie.jpg  <<< -->
+          <img src="images/chicken-pot-pie.jpg" alt="Chicken Pot Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Chicken Pot Pie</h4>
+            <p class="desc">A savory pie of chicken and vegetables in a creamy sauce.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Chicken Pot Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-chicken-pot-pie" id="chicken-pot-pie-none" checked>
+              <label for="chicken-pot-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-chicken-pot-pie" id="chicken-pot-pie-slice">
+              <label for="chicken-pot-pie-slice">Slice &#8369;329</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-chicken-pot-pie" id="chicken-pot-pie-whole">
+              <label for="chicken-pot-pie-whole">Whole &#8369;2,499</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Chicken Pot Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-chicken-pot-pie" id="chicken-pot-pie-q1" checked>
+              <label for="chicken-pot-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-chicken-pot-pie" id="chicken-pot-pie-q2">
+              <label for="chicken-pot-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-chicken-pot-pie" id="chicken-pot-pie-q3">
+              <label for="chicken-pot-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-chicken-pot-pie" id="chicken-pot-pie-q4">
+              <label for="chicken-pot-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-chicken-pot-pie" id="chicken-pot-pie-q5">
+              <label for="chicken-pot-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 15 of 30: PEACH MANGO PIE ============ -->
+        <article class="card" id="peach-mango-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/peach-mango-pie.jpg  <<< -->
+          <img src="images/peach-mango-pie.jpg" alt="Peach Mango Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Peach Mango Pie</h4>
+            <p class="desc">Sweet peach and ripe mango in a crisp pastry.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Peach Mango Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-peach-mango-pie" id="peach-mango-pie-none" checked>
+              <label for="peach-mango-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-peach-mango-pie" id="peach-mango-pie-slice">
+              <label for="peach-mango-pie-slice">Slice &#8369;209</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-peach-mango-pie" id="peach-mango-pie-whole">
+              <label for="peach-mango-pie-whole">Whole &#8369;1,599</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Peach Mango Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-peach-mango-pie" id="peach-mango-pie-q1" checked>
+              <label for="peach-mango-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-peach-mango-pie" id="peach-mango-pie-q2">
+              <label for="peach-mango-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-peach-mango-pie" id="peach-mango-pie-q3">
+              <label for="peach-mango-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-peach-mango-pie" id="peach-mango-pie-q4">
+              <label for="peach-mango-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-peach-mango-pie" id="peach-mango-pie-q5">
+              <label for="peach-mango-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 16 of 30: APPLE PIE ============ -->
+        <article class="card" id="apple-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/apple-pie.jpg  <<< -->
+          <img src="images/apple-pie.jpg" alt="Apple Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Apple Pie</h4>
+            <p class="desc">Cinnamon-spiced apples baked under a flaky crust.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Apple Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-apple-pie" id="apple-pie-none" checked>
+              <label for="apple-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-apple-pie" id="apple-pie-slice">
+              <label for="apple-pie-slice">Slice &#8369;329</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-apple-pie" id="apple-pie-whole">
+              <label for="apple-pie-whole">Whole &#8369;2,499</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Apple Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-apple-pie" id="apple-pie-q1" checked>
+              <label for="apple-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-apple-pie" id="apple-pie-q2">
+              <label for="apple-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-apple-pie" id="apple-pie-q3">
+              <label for="apple-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-apple-pie" id="apple-pie-q4">
+              <label for="apple-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-apple-pie" id="apple-pie-q5">
+              <label for="apple-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 17 of 30: SHEPHERD'S PIE ============ -->
+        <article class="card" id="shepherds-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/shepherds-pie.jpg  <<< -->
+          <img src="images/shepherds-pie.jpg" alt="Shepherd's Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Shepherd's Pie</h4>
+            <p class="desc">Savory minced meat and vegetables under creamy mashed potato.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Shepherd's Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-shepherds-pie" id="shepherds-pie-none" checked>
+              <label for="shepherds-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-shepherds-pie" id="shepherds-pie-slice">
+              <label for="shepherds-pie-slice">Slice &#8369;389</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-shepherds-pie" id="shepherds-pie-whole">
+              <label for="shepherds-pie-whole">Whole &#8369;2,999</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Shepherd's Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-shepherds-pie" id="shepherds-pie-q1" checked>
+              <label for="shepherds-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-shepherds-pie" id="shepherds-pie-q2">
+              <label for="shepherds-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-shepherds-pie" id="shepherds-pie-q3">
+              <label for="shepherds-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-shepherds-pie" id="shepherds-pie-q4">
+              <label for="shepherds-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-shepherds-pie" id="shepherds-pie-q5">
+              <label for="shepherds-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 18 of 30: PECAN PIE ============ -->
+        <article class="card" id="pecan-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/pecan-pie.jpg  <<< -->
+          <img src="images/pecan-pie.jpg" alt="Pecan Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Pecan Pie</h4>
+            <p class="desc">A sweet, nutty filling with toasted pecans.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Pecan Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-pecan-pie" id="pecan-pie-none" checked>
+              <label for="pecan-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-pecan-pie" id="pecan-pie-slice">
+              <label for="pecan-pie-slice">Slice &#8369;309</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-pecan-pie" id="pecan-pie-whole">
+              <label for="pecan-pie-whole">Whole &#8369;2,399</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Pecan Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-pecan-pie" id="pecan-pie-q1" checked>
+              <label for="pecan-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-pecan-pie" id="pecan-pie-q2">
+              <label for="pecan-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-pecan-pie" id="pecan-pie-q3">
+              <label for="pecan-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-pecan-pie" id="pecan-pie-q4">
+              <label for="pecan-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-pecan-pie" id="pecan-pie-q5">
+              <label for="pecan-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 19 of 30: BANANA CREAM PIE ============ -->
+        <article class="card" id="banana-cream-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/banana-cream-pie.jpg  <<< -->
+          <img src="images/banana-cream-pie.jpg" alt="Banana Cream Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Banana Cream Pie</h4>
+            <p class="desc">Sliced bananas and vanilla cream topped with whipped cream.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Banana Cream Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-banana-cream-pie" id="banana-cream-pie-none" checked>
+              <label for="banana-cream-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-banana-cream-pie" id="banana-cream-pie-slice">
+              <label for="banana-cream-pie-slice">Slice &#8369;209</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-banana-cream-pie" id="banana-cream-pie-whole">
+              <label for="banana-cream-pie-whole">Whole &#8369;1,599</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Banana Cream Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-banana-cream-pie" id="banana-cream-pie-q1" checked>
+              <label for="banana-cream-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-banana-cream-pie" id="banana-cream-pie-q2">
+              <label for="banana-cream-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-banana-cream-pie" id="banana-cream-pie-q3">
+              <label for="banana-cream-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-banana-cream-pie" id="banana-cream-pie-q4">
+              <label for="banana-cream-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-banana-cream-pie" id="banana-cream-pie-q5">
+              <label for="banana-cream-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 20 of 30: PUMPKIN PIE ============ -->
+        <article class="card" id="pumpkin-pie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/pumpkin-pie.jpg  <<< -->
+          <img src="images/pumpkin-pie.jpg" alt="Pumpkin Pie" loading="lazy">
+          <div class="card-body">
+            <h4>Pumpkin Pie</h4>
+            <p class="desc">Smooth, gently spiced pumpkin custard in a flaky crust.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Pumpkin Pie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-pumpkin-pie" id="pumpkin-pie-none" checked>
+              <label for="pumpkin-pie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-pumpkin-pie" id="pumpkin-pie-slice">
+              <label for="pumpkin-pie-slice">Slice &#8369;159</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-pumpkin-pie" id="pumpkin-pie-whole">
+              <label for="pumpkin-pie-whole">Whole &#8369;1,199</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Pumpkin Pie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-pumpkin-pie" id="pumpkin-pie-q1" checked>
+              <label for="pumpkin-pie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-pumpkin-pie" id="pumpkin-pie-q2">
+              <label for="pumpkin-pie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-pumpkin-pie" id="pumpkin-pie-q3">
+              <label for="pumpkin-pie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-pumpkin-pie" id="pumpkin-pie-q4">
+              <label for="pumpkin-pie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-pumpkin-pie" id="pumpkin-pie-q5">
+              <label for="pumpkin-pie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        </div>
+      </div>
+
+      <!-- ############################################################ -->
+      <!--                       CATEGORY: BEVERAGES                       -->
+      <!-- ############################################################ -->
+      <div class="category" id="beverages">
+        <div class="category-head">
+          <h3>Beverages</h3>
+          <p>Three sizes: Demi, Grande and Venti.</p>
+        </div>
+        <div class="grid cat-drinks">
+
+        <!-- ============ PRODUCT 21 of 30: CAFFE LATTE ============ -->
+        <article class="card" id="caffe-latte">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/caffe-latte.jpg  <<< -->
+          <img src="images/caffe-latte.jpg" alt="Caffe Latte" loading="lazy">
+          <div class="card-body">
+            <h4>Caffe Latte</h4>
+            <p class="desc">Espresso with steamed milk and a light layer of foam.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Caffe Latte">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-caffe-latte" id="caffe-latte-none" checked>
+              <label for="caffe-latte-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caffe-latte" id="caffe-latte-demi">
+              <label for="caffe-latte-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caffe-latte" id="caffe-latte-grande">
+              <label for="caffe-latte-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caffe-latte" id="caffe-latte-venti">
+              <label for="caffe-latte-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Caffe Latte">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-caffe-latte" id="caffe-latte-q1" checked>
+              <label for="caffe-latte-q1">1</label>
+              <input class="chip-input" type="radio" name="q-caffe-latte" id="caffe-latte-q2">
+              <label for="caffe-latte-q2">2</label>
+              <input class="chip-input" type="radio" name="q-caffe-latte" id="caffe-latte-q3">
+              <label for="caffe-latte-q3">3</label>
+              <input class="chip-input" type="radio" name="q-caffe-latte" id="caffe-latte-q4">
+              <label for="caffe-latte-q4">4</label>
+              <input class="chip-input" type="radio" name="q-caffe-latte" id="caffe-latte-q5">
+              <label for="caffe-latte-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 22 of 30: CAPPUCCINO ============ -->
+        <article class="card" id="cappuccino">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/cappuccino.jpg  <<< -->
+          <img src="images/cappuccino.jpg" alt="Cappuccino" loading="lazy">
+          <div class="card-body">
+            <h4>Cappuccino</h4>
+            <p class="desc">Espresso, steamed milk and thick foam in equal parts.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Cappuccino">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-cappuccino" id="cappuccino-none" checked>
+              <label for="cappuccino-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-cappuccino" id="cappuccino-demi">
+              <label for="cappuccino-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-cappuccino" id="cappuccino-grande">
+              <label for="cappuccino-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-cappuccino" id="cappuccino-venti">
+              <label for="cappuccino-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Cappuccino">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-cappuccino" id="cappuccino-q1" checked>
+              <label for="cappuccino-q1">1</label>
+              <input class="chip-input" type="radio" name="q-cappuccino" id="cappuccino-q2">
+              <label for="cappuccino-q2">2</label>
+              <input class="chip-input" type="radio" name="q-cappuccino" id="cappuccino-q3">
+              <label for="cappuccino-q3">3</label>
+              <input class="chip-input" type="radio" name="q-cappuccino" id="cappuccino-q4">
+              <label for="cappuccino-q4">4</label>
+              <input class="chip-input" type="radio" name="q-cappuccino" id="cappuccino-q5">
+              <label for="cappuccino-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 23 of 30: CARAMEL MACCHIATO ============ -->
+        <article class="card" id="caramel-macchiato">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/caramel-macchiato.jpg  <<< -->
+          <img src="images/caramel-macchiato.jpg" alt="Caramel Macchiato" loading="lazy">
+          <div class="card-body">
+            <h4>Caramel Macchiato</h4>
+            <p class="desc">Vanilla, steamed milk and espresso with a caramel drizzle.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Caramel Macchiato">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-caramel-macchiato" id="caramel-macchiato-none" checked>
+              <label for="caramel-macchiato-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caramel-macchiato" id="caramel-macchiato-demi">
+              <label for="caramel-macchiato-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caramel-macchiato" id="caramel-macchiato-grande">
+              <label for="caramel-macchiato-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-caramel-macchiato" id="caramel-macchiato-venti">
+              <label for="caramel-macchiato-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Caramel Macchiato">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-caramel-macchiato" id="caramel-macchiato-q1" checked>
+              <label for="caramel-macchiato-q1">1</label>
+              <input class="chip-input" type="radio" name="q-caramel-macchiato" id="caramel-macchiato-q2">
+              <label for="caramel-macchiato-q2">2</label>
+              <input class="chip-input" type="radio" name="q-caramel-macchiato" id="caramel-macchiato-q3">
+              <label for="caramel-macchiato-q3">3</label>
+              <input class="chip-input" type="radio" name="q-caramel-macchiato" id="caramel-macchiato-q4">
+              <label for="caramel-macchiato-q4">4</label>
+              <input class="chip-input" type="radio" name="q-caramel-macchiato" id="caramel-macchiato-q5">
+              <label for="caramel-macchiato-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 24 of 30: VANILLA SWEET CREAM COLD BREW ============ -->
+        <article class="card" id="vanilla-sweet-cream-cold-brew">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/vanilla-sweet-cream-cold-brew.jpg  <<< -->
+          <img src="images/vanilla-sweet-cream-cold-brew.jpg" alt="Vanilla Sweet Cream Cold Brew" loading="lazy">
+          <div class="card-body">
+            <h4>Vanilla Sweet Cream Cold Brew</h4>
+            <p class="desc">Slow-steeped cold brew topped with vanilla sweet cream.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Vanilla Sweet Cream Cold Brew">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-none" checked>
+              <label for="vanilla-sweet-cream-cold-brew-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-demi">
+              <label for="vanilla-sweet-cream-cold-brew-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-grande">
+              <label for="vanilla-sweet-cream-cold-brew-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-venti">
+              <label for="vanilla-sweet-cream-cold-brew-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Vanilla Sweet Cream Cold Brew">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-q1" checked>
+              <label for="vanilla-sweet-cream-cold-brew-q1">1</label>
+              <input class="chip-input" type="radio" name="q-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-q2">
+              <label for="vanilla-sweet-cream-cold-brew-q2">2</label>
+              <input class="chip-input" type="radio" name="q-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-q3">
+              <label for="vanilla-sweet-cream-cold-brew-q3">3</label>
+              <input class="chip-input" type="radio" name="q-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-q4">
+              <label for="vanilla-sweet-cream-cold-brew-q4">4</label>
+              <input class="chip-input" type="radio" name="q-vanilla-sweet-cream-cold-brew" id="vanilla-sweet-cream-cold-brew-q5">
+              <label for="vanilla-sweet-cream-cold-brew-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 25 of 30: BROWN SUGAR OATMILK SHAKEN ESPRESSO ============ -->
+        <article class="card" id="brown-sugar-oatmilk-shaken-espresso">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/brown-sugar-oatmilk-shaken-espresso.jpg  <<< -->
+          <img src="images/brown-sugar-oatmilk-shaken-espresso.jpg" alt="Brown Sugar Oatmilk Shaken Espresso" loading="lazy">
+          <div class="card-body">
+            <h4>Brown Sugar Oatmilk Shaken Espresso</h4>
+            <p class="desc">Shaken espresso with brown sugar and creamy oat milk.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Brown Sugar Oatmilk Shaken Espresso">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-none" checked>
+              <label for="brown-sugar-oatmilk-shaken-espresso-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-demi">
+              <label for="brown-sugar-oatmilk-shaken-espresso-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-grande">
+              <label for="brown-sugar-oatmilk-shaken-espresso-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-venti">
+              <label for="brown-sugar-oatmilk-shaken-espresso-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Brown Sugar Oatmilk Shaken Espresso">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-q1" checked>
+              <label for="brown-sugar-oatmilk-shaken-espresso-q1">1</label>
+              <input class="chip-input" type="radio" name="q-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-q2">
+              <label for="brown-sugar-oatmilk-shaken-espresso-q2">2</label>
+              <input class="chip-input" type="radio" name="q-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-q3">
+              <label for="brown-sugar-oatmilk-shaken-espresso-q3">3</label>
+              <input class="chip-input" type="radio" name="q-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-q4">
+              <label for="brown-sugar-oatmilk-shaken-espresso-q4">4</label>
+              <input class="chip-input" type="radio" name="q-brown-sugar-oatmilk-shaken-espresso" id="brown-sugar-oatmilk-shaken-espresso-q5">
+              <label for="brown-sugar-oatmilk-shaken-espresso-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 26 of 30: ICED LEMONADE ============ -->
+        <article class="card" id="iced-lemonade">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/iced-lemonade.jpg  <<< -->
+          <img src="images/iced-lemonade.jpg" alt="Iced Lemonade" loading="lazy">
+          <div class="card-body">
+            <h4>Iced Lemonade</h4>
+            <p class="desc">Fresh lemon, sugar and plenty of ice. Bright and refreshing.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Iced Lemonade">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-iced-lemonade" id="iced-lemonade-none" checked>
+              <label for="iced-lemonade-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-iced-lemonade" id="iced-lemonade-demi">
+              <label for="iced-lemonade-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-iced-lemonade" id="iced-lemonade-grande">
+              <label for="iced-lemonade-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-iced-lemonade" id="iced-lemonade-venti">
+              <label for="iced-lemonade-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Iced Lemonade">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-iced-lemonade" id="iced-lemonade-q1" checked>
+              <label for="iced-lemonade-q1">1</label>
+              <input class="chip-input" type="radio" name="q-iced-lemonade" id="iced-lemonade-q2">
+              <label for="iced-lemonade-q2">2</label>
+              <input class="chip-input" type="radio" name="q-iced-lemonade" id="iced-lemonade-q3">
+              <label for="iced-lemonade-q3">3</label>
+              <input class="chip-input" type="radio" name="q-iced-lemonade" id="iced-lemonade-q4">
+              <label for="iced-lemonade-q4">4</label>
+              <input class="chip-input" type="radio" name="q-iced-lemonade" id="iced-lemonade-q5">
+              <label for="iced-lemonade-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 27 of 30: MANGO FRUIT SMOOTHIE ============ -->
+        <article class="card" id="mango-fruit-smoothie">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/mango-fruit-smoothie.jpg  <<< -->
+          <img src="images/mango-fruit-smoothie.jpg" alt="Mango Fruit Smoothie" loading="lazy">
+          <div class="card-body">
+            <h4>Mango Fruit Smoothie</h4>
+            <p class="desc">Ripe mango blended thick and cold.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Mango Fruit Smoothie">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-mango-fruit-smoothie" id="mango-fruit-smoothie-none" checked>
+              <label for="mango-fruit-smoothie-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-mango-fruit-smoothie" id="mango-fruit-smoothie-demi">
+              <label for="mango-fruit-smoothie-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-mango-fruit-smoothie" id="mango-fruit-smoothie-grande">
+              <label for="mango-fruit-smoothie-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-mango-fruit-smoothie" id="mango-fruit-smoothie-venti">
+              <label for="mango-fruit-smoothie-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Mango Fruit Smoothie">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-mango-fruit-smoothie" id="mango-fruit-smoothie-q1" checked>
+              <label for="mango-fruit-smoothie-q1">1</label>
+              <input class="chip-input" type="radio" name="q-mango-fruit-smoothie" id="mango-fruit-smoothie-q2">
+              <label for="mango-fruit-smoothie-q2">2</label>
+              <input class="chip-input" type="radio" name="q-mango-fruit-smoothie" id="mango-fruit-smoothie-q3">
+              <label for="mango-fruit-smoothie-q3">3</label>
+              <input class="chip-input" type="radio" name="q-mango-fruit-smoothie" id="mango-fruit-smoothie-q4">
+              <label for="mango-fruit-smoothie-q4">4</label>
+              <input class="chip-input" type="radio" name="q-mango-fruit-smoothie" id="mango-fruit-smoothie-q5">
+              <label for="mango-fruit-smoothie-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 28 of 30: MATCHA DRINK ============ -->
+        <article class="card" id="matcha-drink">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/matcha-drink.jpg  <<< -->
+          <img src="images/matcha-drink.jpg" alt="Matcha Drink" loading="lazy">
+          <div class="card-body">
+            <h4>Matcha Drink</h4>
+            <p class="desc">Smooth Japanese green tea whisked with milk.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Matcha Drink">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-matcha-drink" id="matcha-drink-none" checked>
+              <label for="matcha-drink-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-matcha-drink" id="matcha-drink-demi">
+              <label for="matcha-drink-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-matcha-drink" id="matcha-drink-grande">
+              <label for="matcha-drink-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-matcha-drink" id="matcha-drink-venti">
+              <label for="matcha-drink-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Matcha Drink">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-matcha-drink" id="matcha-drink-q1" checked>
+              <label for="matcha-drink-q1">1</label>
+              <input class="chip-input" type="radio" name="q-matcha-drink" id="matcha-drink-q2">
+              <label for="matcha-drink-q2">2</label>
+              <input class="chip-input" type="radio" name="q-matcha-drink" id="matcha-drink-q3">
+              <label for="matcha-drink-q3">3</label>
+              <input class="chip-input" type="radio" name="q-matcha-drink" id="matcha-drink-q4">
+              <label for="matcha-drink-q4">4</label>
+              <input class="chip-input" type="radio" name="q-matcha-drink" id="matcha-drink-q5">
+              <label for="matcha-drink-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 29 of 30: HOT CHOCOLATE ============ -->
+        <article class="card" id="hot-chocolate">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/hot-chocolate.jpg  <<< -->
+          <img src="images/hot-chocolate.jpg" alt="Hot Chocolate" loading="lazy">
+          <div class="card-body">
+            <h4>Hot Chocolate</h4>
+            <p class="desc">Rich cocoa with steamed milk. Comforting and sweet.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Hot Chocolate">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-hot-chocolate" id="hot-chocolate-none" checked>
+              <label for="hot-chocolate-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-hot-chocolate" id="hot-chocolate-demi">
+              <label for="hot-chocolate-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-hot-chocolate" id="hot-chocolate-grande">
+              <label for="hot-chocolate-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-hot-chocolate" id="hot-chocolate-venti">
+              <label for="hot-chocolate-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Hot Chocolate">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-hot-chocolate" id="hot-chocolate-q1" checked>
+              <label for="hot-chocolate-q1">1</label>
+              <input class="chip-input" type="radio" name="q-hot-chocolate" id="hot-chocolate-q2">
+              <label for="hot-chocolate-q2">2</label>
+              <input class="chip-input" type="radio" name="q-hot-chocolate" id="hot-chocolate-q3">
+              <label for="hot-chocolate-q3">3</label>
+              <input class="chip-input" type="radio" name="q-hot-chocolate" id="hot-chocolate-q4">
+              <label for="hot-chocolate-q4">4</label>
+              <input class="chip-input" type="radio" name="q-hot-chocolate" id="hot-chocolate-q5">
+              <label for="hot-chocolate-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PRODUCT 30 of 30: IRISH COFFEE ============ -->
+        <article class="card" id="irish-coffee">
+          <!-- >>> INSERT YOUR IMAGE HERE: save your photo as  images/irish-coffee.jpg  <<< -->
+          <img src="images/irish-coffee.jpg" alt="Irish Coffee" loading="lazy">
+          <div class="card-body">
+            <h4>Irish Coffee</h4>
+            <p class="desc">Hot coffee with whiskey, sugar and a cap of cream.</p>
+
+            <div class="choices" role="radiogroup" aria-label="Choose an option for Irish Coffee">
+              <span class="lbl">Add to cart</span>
+              <input class="chip-input opt opt-none" type="radio" name="o-irish-coffee" id="irish-coffee-none" checked>
+              <label for="irish-coffee-none">None</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-irish-coffee" id="irish-coffee-demi">
+              <label for="irish-coffee-demi">Demi &#8369;119</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-irish-coffee" id="irish-coffee-grande">
+              <label for="irish-coffee-grande">Grande &#8369;199</label>
+              <input class="chip-input opt opt-add" type="radio" name="o-irish-coffee" id="irish-coffee-venti">
+              <label for="irish-coffee-venti">Venti &#8369;319</label>
+            </div>
+
+            <div class="choices qty" role="radiogroup" aria-label="Quantity for Irish Coffee">
+              <span class="lbl">How many?</span>
+              <input class="chip-input" type="radio" name="q-irish-coffee" id="irish-coffee-q1" checked>
+              <label for="irish-coffee-q1">1</label>
+              <input class="chip-input" type="radio" name="q-irish-coffee" id="irish-coffee-q2">
+              <label for="irish-coffee-q2">2</label>
+              <input class="chip-input" type="radio" name="q-irish-coffee" id="irish-coffee-q3">
+              <label for="irish-coffee-q3">3</label>
+              <input class="chip-input" type="radio" name="q-irish-coffee" id="irish-coffee-q4">
+              <label for="irish-coffee-q4">4</label>
+              <input class="chip-input" type="radio" name="q-irish-coffee" id="irish-coffee-q5">
+              <label for="irish-coffee-q5">5</label>
+            </div>
+          </div>
+        </article>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== LOCATION ===================== -->
+    <section class="section find-us" id="find-us">
+      <h2>Find us</h2>
+      <div class="find-grid">
+        <div>
+          <p>Visit our shop, or open the map for directions.</p>
+          <address>938 Aurora Blvd., Cubao<br>Quezon City, Philippines</address>
+          <!-- CHANGE THE ADDRESS HERE and in the map link below to your own shop location. -->
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Technological+Institute+of+the+Philippines+Quezon+City" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+        <!-- Map element (needs internet). To change the place, replace the words after q= -->
+        <iframe title="Map showing our location" loading="lazy"
+          src="https://www.google.com/maps?q=Technological+Institute+of+the+Philippines+Quezon+City&amp;output=embed"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       CART BAR (appears after you add your first product)
+       It is placed AFTER the products on purpose: the totals
+       are counted from the top of the page downward.
+       ===================================================== -->
+  <div class="cartbar" role="status">
+    <span class="cartbar-info"></span>
+    <label class="btn btn-light" for="step-cart">View cart</label>
+  </div>
+
+  <!-- ===================== SCREEN: CART ===================== -->
+  <section class="overlay overlay-cart" aria-label="Your cart">
+    <div class="panel">
+      <h2>Your cart</h2>
+
+      <p class="empty-msg">Your cart is empty. Go back to the menu and add something.</p>
+
+      <ul class="lines">
+          <li class="line" id="line-strawberry-cake-slice">
+            <span class="line-name">Strawberry Cake <em>Slice</em></span>
+            <span class="line-qty q-strawberry-cake"></span>
+            <span class="line-price s-strawberry-cake"></span>
+          </li>
+          <li class="line" id="line-strawberry-cake-whole">
+            <span class="line-name">Strawberry Cake <em>Whole</em></span>
+            <span class="line-qty q-strawberry-cake"></span>
+            <span class="line-price s-strawberry-cake"></span>
+          </li>
+          <li class="line" id="line-butter-cake-slice">
+            <span class="line-name">Butter Cake <em>Slice</em></span>
+            <span class="line-qty q-butter-cake"></span>
+            <span class="line-price s-butter-cake"></span>
+          </li>
+          <li class="line" id="line-butter-cake-whole">
+            <span class="line-name">Butter Cake <em>Whole</em></span>
+            <span class="line-qty q-butter-cake"></span>
+            <span class="line-price s-butter-cake"></span>
+          </li>
+          <li class="line" id="line-black-forest-cake-slice">
+            <span class="line-name">Black Forest Cake <em>Slice</em></span>
+            <span class="line-qty q-black-forest-cake"></span>
+            <span class="line-price s-black-forest-cake"></span>
+          </li>
+          <li class="line" id="line-black-forest-cake-whole">
+            <span class="line-name">Black Forest Cake <em>Whole</em></span>
+            <span class="line-qty q-black-forest-cake"></span>
+            <span class="line-price s-black-forest-cake"></span>
+          </li>
+          <li class="line" id="line-carrot-cake-slice">
+            <span class="line-name">Carrot Cake <em>Slice</em></span>
+            <span class="line-qty q-carrot-cake"></span>
+            <span class="line-price s-carrot-cake"></span>
+          </li>
+          <li class="line" id="line-carrot-cake-whole">
+            <span class="line-name">Carrot Cake <em>Whole</em></span>
+            <span class="line-qty q-carrot-cake"></span>
+            <span class="line-price s-carrot-cake"></span>
+          </li>
+          <li class="line" id="line-chiffon-cake-slice">
+            <span class="line-name">Chiffon Cake <em>Slice</em></span>
+            <span class="line-qty q-chiffon-cake"></span>
+            <span class="line-price s-chiffon-cake"></span>
+          </li>
+          <li class="line" id="line-chiffon-cake-whole">
+            <span class="line-name">Chiffon Cake <em>Whole</em></span>
+            <span class="line-qty q-chiffon-cake"></span>
+            <span class="line-price s-chiffon-cake"></span>
+          </li>
+          <li class="line" id="line-red-velvet-cake-slice">
+            <span class="line-name">Red Velvet Cake <em>Slice</em></span>
+            <span class="line-qty q-red-velvet-cake"></span>
+            <span class="line-price s-red-velvet-cake"></span>
+          </li>
+          <li class="line" id="line-red-velvet-cake-whole">
+            <span class="line-name">Red Velvet Cake <em>Whole</em></span>
+            <span class="line-qty q-red-velvet-cake"></span>
+            <span class="line-price s-red-velvet-cake"></span>
+          </li>
+          <li class="line" id="line-genoise-sponge-cake-slice">
+            <span class="line-name">Genoise Sponge Cake <em>Slice</em></span>
+            <span class="line-qty q-genoise-sponge-cake"></span>
+            <span class="line-price s-genoise-sponge-cake"></span>
+          </li>
+          <li class="line" id="line-genoise-sponge-cake-whole">
+            <span class="line-name">Genoise Sponge Cake <em>Whole</em></span>
+            <span class="line-qty q-genoise-sponge-cake"></span>
+            <span class="line-price s-genoise-sponge-cake"></span>
+          </li>
+          <li class="line" id="line-cheese-cake-slice">
+            <span class="line-name">Cheese Cake <em>Slice</em></span>
+            <span class="line-qty q-cheese-cake"></span>
+            <span class="line-price s-cheese-cake"></span>
+          </li>
+          <li class="line" id="line-cheese-cake-whole">
+            <span class="line-name">Cheese Cake <em>Whole</em></span>
+            <span class="line-qty q-cheese-cake"></span>
+            <span class="line-price s-cheese-cake"></span>
+          </li>
+          <li class="line" id="line-angel-food-cake-slice">
+            <span class="line-name">Angel Food Cake <em>Slice</em></span>
+            <span class="line-qty q-angel-food-cake"></span>
+            <span class="line-price s-angel-food-cake"></span>
+          </li>
+          <li class="line" id="line-angel-food-cake-whole">
+            <span class="line-name">Angel Food Cake <em>Whole</em></span>
+            <span class="line-qty q-angel-food-cake"></span>
+            <span class="line-price s-angel-food-cake"></span>
+          </li>
+          <li class="line" id="line-mousse-cake-slice">
+            <span class="line-name">Mousse Cake <em>Slice</em></span>
+            <span class="line-qty q-mousse-cake"></span>
+            <span class="line-price s-mousse-cake"></span>
+          </li>
+          <li class="line" id="line-mousse-cake-whole">
+            <span class="line-name">Mousse Cake <em>Whole</em></span>
+            <span class="line-qty q-mousse-cake"></span>
+            <span class="line-price s-mousse-cake"></span>
+          </li>
+          <li class="line" id="line-buko-pie-slice">
+            <span class="line-name">Buko Pie <em>Slice</em></span>
+            <span class="line-qty q-buko-pie"></span>
+            <span class="line-price s-buko-pie"></span>
+          </li>
+          <li class="line" id="line-buko-pie-whole">
+            <span class="line-name">Buko Pie <em>Whole</em></span>
+            <span class="line-qty q-buko-pie"></span>
+            <span class="line-price s-buko-pie"></span>
+          </li>
+          <li class="line" id="line-egg-pie-slice">
+            <span class="line-name">Egg Pie <em>Slice</em></span>
+            <span class="line-qty q-egg-pie"></span>
+            <span class="line-price s-egg-pie"></span>
+          </li>
+          <li class="line" id="line-egg-pie-whole">
+            <span class="line-name">Egg Pie <em>Whole</em></span>
+            <span class="line-qty q-egg-pie"></span>
+            <span class="line-price s-egg-pie"></span>
+          </li>
+          <li class="line" id="line-guapple-pie-slice">
+            <span class="line-name">Guapple Pie <em>Slice</em></span>
+            <span class="line-qty q-guapple-pie"></span>
+            <span class="line-price s-guapple-pie"></span>
+          </li>
+          <li class="line" id="line-guapple-pie-whole">
+            <span class="line-name">Guapple Pie <em>Whole</em></span>
+            <span class="line-qty q-guapple-pie"></span>
+            <span class="line-price s-guapple-pie"></span>
+          </li>
+          <li class="line" id="line-chicken-pot-pie-slice">
+            <span class="line-name">Chicken Pot Pie <em>Slice</em></span>
+            <span class="line-qty q-chicken-pot-pie"></span>
+            <span class="line-price s-chicken-pot-pie"></span>
+          </li>
+          <li class="line" id="line-chicken-pot-pie-whole">
+            <span class="line-name">Chicken Pot Pie <em>Whole</em></span>
+            <span class="line-qty q-chicken-pot-pie"></span>
+            <span class="line-price s-chicken-pot-pie"></span>
+          </li>
+          <li class="line" id="line-peach-mango-pie-slice">
+            <span class="line-name">Peach Mango Pie <em>Slice</em></span>
+            <span class="line-qty q-peach-mango-pie"></span>
+            <span class="line-price s-peach-mango-pie"></span>
+          </li>
+          <li class="line" id="line-peach-mango-pie-whole">
+            <span class="line-name">Peach Mango Pie <em>Whole</em></span>
+            <span class="line-qty q-peach-mango-pie"></span>
+            <span class="line-price s-peach-mango-pie"></span>
+          </li>
+          <li class="line" id="line-apple-pie-slice">
+            <span class="line-name">Apple Pie <em>Slice</em></span>
+            <span class="line-qty q-apple-pie"></span>
+            <span class="line-price s-apple-pie"></span>
+          </li>
+          <li class="line" id="line-apple-pie-whole">
+            <span class="line-name">Apple Pie <em>Whole</em></span>
+            <span class="line-qty q-apple-pie"></span>
+            <span class="line-price s-apple-pie"></span>
+          </li>
+          <li class="line" id="line-shepherds-pie-slice">
+            <span class="line-name">Shepherd's Pie <em>Slice</em></span>
+            <span class="line-qty q-shepherds-pie"></span>
+            <span class="line-price s-shepherds-pie"></span>
+          </li>
+          <li class="line" id="line-shepherds-pie-whole">
+            <span class="line-name">Shepherd's Pie <em>Whole</em></span>
+            <span class="line-qty q-shepherds-pie"></span>
+            <span class="line-price s-shepherds-pie"></span>
+          </li>
+          <li class="line" id="line-pecan-pie-slice">
+            <span class="line-name">Pecan Pie <em>Slice</em></span>
+            <span class="line-qty q-pecan-pie"></span>
+            <span class="line-price s-pecan-pie"></span>
+          </li>
+          <li class="line" id="line-pecan-pie-whole">
+            <span class="line-name">Pecan Pie <em>Whole</em></span>
+            <span class="line-qty q-pecan-pie"></span>
+            <span class="line-price s-pecan-pie"></span>
+          </li>
+          <li class="line" id="line-banana-cream-pie-slice">
+            <span class="line-name">Banana Cream Pie <em>Slice</em></span>
+            <span class="line-qty q-banana-cream-pie"></span>
+            <span class="line-price s-banana-cream-pie"></span>
+          </li>
+          <li class="line" id="line-banana-cream-pie-whole">
+            <span class="line-name">Banana Cream Pie <em>Whole</em></span>
+            <span class="line-qty q-banana-cream-pie"></span>
+            <span class="line-price s-banana-cream-pie"></span>
+          </li>
+          <li class="line" id="line-pumpkin-pie-slice">
+            <span class="line-name">Pumpkin Pie <em>Slice</em></span>
+            <span class="line-qty q-pumpkin-pie"></span>
+            <span class="line-price s-pumpkin-pie"></span>
+          </li>
+          <li class="line" id="line-pumpkin-pie-whole">
+            <span class="line-name">Pumpkin Pie <em>Whole</em></span>
+            <span class="line-qty q-pumpkin-pie"></span>
+            <span class="line-price s-pumpkin-pie"></span>
+          </li>
+          <li class="line" id="line-caffe-latte-demi">
+            <span class="line-name">Caffe Latte <em>Demi</em></span>
+            <span class="line-qty q-caffe-latte"></span>
+            <span class="line-price s-caffe-latte"></span>
+          </li>
+          <li class="line" id="line-caffe-latte-grande">
+            <span class="line-name">Caffe Latte <em>Grande</em></span>
+            <span class="line-qty q-caffe-latte"></span>
+            <span class="line-price s-caffe-latte"></span>
+          </li>
+          <li class="line" id="line-caffe-latte-venti">
+            <span class="line-name">Caffe Latte <em>Venti</em></span>
+            <span class="line-qty q-caffe-latte"></span>
+            <span class="line-price s-caffe-latte"></span>
+          </li>
+          <li class="line" id="line-cappuccino-demi">
+            <span class="line-name">Cappuccino <em>Demi</em></span>
+            <span class="line-qty q-cappuccino"></span>
+            <span class="line-price s-cappuccino"></span>
+          </li>
+          <li class="line" id="line-cappuccino-grande">
+            <span class="line-name">Cappuccino <em>Grande</em></span>
+            <span class="line-qty q-cappuccino"></span>
+            <span class="line-price s-cappuccino"></span>
+          </li>
+          <li class="line" id="line-cappuccino-venti">
+            <span class="line-name">Cappuccino <em>Venti</em></span>
+            <span class="line-qty q-cappuccino"></span>
+            <span class="line-price s-cappuccino"></span>
+          </li>
+          <li class="line" id="line-caramel-macchiato-demi">
+            <span class="line-name">Caramel Macchiato <em>Demi</em></span>
+            <span class="line-qty q-caramel-macchiato"></span>
+            <span class="line-price s-caramel-macchiato"></span>
+          </li>
+          <li class="line" id="line-caramel-macchiato-grande">
+            <span class="line-name">Caramel Macchiato <em>Grande</em></span>
+            <span class="line-qty q-caramel-macchiato"></span>
+            <span class="line-price s-caramel-macchiato"></span>
+          </li>
+          <li class="line" id="line-caramel-macchiato-venti">
+            <span class="line-name">Caramel Macchiato <em>Venti</em></span>
+            <span class="line-qty q-caramel-macchiato"></span>
+            <span class="line-price s-caramel-macchiato"></span>
+          </li>
+          <li class="line" id="line-vanilla-sweet-cream-cold-brew-demi">
+            <span class="line-name">Vanilla Sweet Cream Cold Brew <em>Demi</em></span>
+            <span class="line-qty q-vanilla-sweet-cream-cold-brew"></span>
+            <span class="line-price s-vanilla-sweet-cream-cold-brew"></span>
+          </li>
+          <li class="line" id="line-vanilla-sweet-cream-cold-brew-grande">
+            <span class="line-name">Vanilla Sweet Cream Cold Brew <em>Grande</em></span>
+            <span class="line-qty q-vanilla-sweet-cream-cold-brew"></span>
+            <span class="line-price s-vanilla-sweet-cream-cold-brew"></span>
+          </li>
+          <li class="line" id="line-vanilla-sweet-cream-cold-brew-venti">
+            <span class="line-name">Vanilla Sweet Cream Cold Brew <em>Venti</em></span>
+            <span class="line-qty q-vanilla-sweet-cream-cold-brew"></span>
+            <span class="line-price s-vanilla-sweet-cream-cold-brew"></span>
+          </li>
+          <li class="line" id="line-brown-sugar-oatmilk-shaken-espresso-demi">
+            <span class="line-name">Brown Sugar Oatmilk Shaken Espresso <em>Demi</em></span>
+            <span class="line-qty q-brown-sugar-oatmilk-shaken-espresso"></span>
+            <span class="line-price s-brown-sugar-oatmilk-shaken-espresso"></span>
+          </li>
+          <li class="line" id="line-brown-sugar-oatmilk-shaken-espresso-grande">
+            <span class="line-name">Brown Sugar Oatmilk Shaken Espresso <em>Grande</em></span>
+            <span class="line-qty q-brown-sugar-oatmilk-shaken-espresso"></span>
+            <span class="line-price s-brown-sugar-oatmilk-shaken-espresso"></span>
+          </li>
+          <li class="line" id="line-brown-sugar-oatmilk-shaken-espresso-venti">
+            <span class="line-name">Brown Sugar Oatmilk Shaken Espresso <em>Venti</em></span>
+            <span class="line-qty q-brown-sugar-oatmilk-shaken-espresso"></span>
+            <span class="line-price s-brown-sugar-oatmilk-shaken-espresso"></span>
+          </li>
+          <li class="line" id="line-iced-lemonade-demi">
+            <span class="line-name">Iced Lemonade <em>Demi</em></span>
+            <span class="line-qty q-iced-lemonade"></span>
+            <span class="line-price s-iced-lemonade"></span>
+          </li>
+          <li class="line" id="line-iced-lemonade-grande">
+            <span class="line-name">Iced Lemonade <em>Grande</em></span>
+            <span class="line-qty q-iced-lemonade"></span>
+            <span class="line-price s-iced-lemonade"></span>
+          </li>
+          <li class="line" id="line-iced-lemonade-venti">
+            <span class="line-name">Iced Lemonade <em>Venti</em></span>
+            <span class="line-qty q-iced-lemonade"></span>
+            <span class="line-price s-iced-lemonade"></span>
+          </li>
+          <li class="line" id="line-mango-fruit-smoothie-demi">
+            <span class="line-name">Mango Fruit Smoothie <em>Demi</em></span>
+            <span class="line-qty q-mango-fruit-smoothie"></span>
+            <span class="line-price s-mango-fruit-smoothie"></span>
+          </li>
+          <li class="line" id="line-mango-fruit-smoothie-grande">
+            <span class="line-name">Mango Fruit Smoothie <em>Grande</em></span>
+            <span class="line-qty q-mango-fruit-smoothie"></span>
+            <span class="line-price s-mango-fruit-smoothie"></span>
+          </li>
+          <li class="line" id="line-mango-fruit-smoothie-venti">
+            <span class="line-name">Mango Fruit Smoothie <em>Venti</em></span>
+            <span class="line-qty q-mango-fruit-smoothie"></span>
+            <span class="line-price s-mango-fruit-smoothie"></span>
+          </li>
+          <li class="line" id="line-matcha-drink-demi">
+            <span class="line-name">Matcha Drink <em>Demi</em></span>
+            <span class="line-qty q-matcha-drink"></span>
+            <span class="line-price s-matcha-drink"></span>
+          </li>
+          <li class="line" id="line-matcha-drink-grande">
+            <span class="line-name">Matcha Drink <em>Grande</em></span>
+            <span class="line-qty q-matcha-drink"></span>
+            <span class="line-price s-matcha-drink"></span>
+          </li>
+          <li class="line" id="line-matcha-drink-venti">
+            <span class="line-name">Matcha Drink <em>Venti</em></span>
+            <span class="line-qty q-matcha-drink"></span>
+            <span class="line-price s-matcha-drink"></span>
+          </li>
+          <li class="line" id="line-hot-chocolate-demi">
+            <span class="line-name">Hot Chocolate <em>Demi</em></span>
+            <span class="line-qty q-hot-chocolate"></span>
+            <span class="line-price s-hot-chocolate"></span>
+          </li>
+          <li class="line" id="line-hot-chocolate-grande">
+            <span class="line-name">Hot Chocolate <em>Grande</em></span>
+            <span class="line-qty q-hot-chocolate"></span>
+            <span class="line-price s-hot-chocolate"></span>
+          </li>
+          <li class="line" id="line-hot-chocolate-venti">
+            <span class="line-name">Hot Chocolate <em>Venti</em></span>
+            <span class="line-qty q-hot-chocolate"></span>
+            <span class="line-price s-hot-chocolate"></span>
+          </li>
+          <li class="line" id="line-irish-coffee-demi">
+            <span class="line-name">Irish Coffee <em>Demi</em></span>
+            <span class="line-qty q-irish-coffee"></span>
+            <span class="line-price s-irish-coffee"></span>
+          </li>
+          <li class="line" id="line-irish-coffee-grande">
+            <span class="line-name">Irish Coffee <em>Grande</em></span>
+            <span class="line-qty q-irish-coffee"></span>
+            <span class="line-price s-irish-coffee"></span>
+          </li>
+          <li class="line" id="line-irish-coffee-venti">
+            <span class="line-name">Irish Coffee <em>Venti</em></span>
+            <span class="line-qty q-irish-coffee"></span>
+            <span class="line-price s-irish-coffee"></span>
+          </li>
+      </ul>
+
+      <div class="cart-footer">
+        <p class="total"><span>Total</span><span class="total-amount"></span></p>
+      </div>
+
+      <div class="actions">
+        <label class="btn" for="step-shop">Keep shopping</label>
+        <label class="btn btn-primary btn-checkout" for="step-checkout">Go to checkout</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCREEN: CHECKOUT ===================== -->
+  <section class="overlay overlay-checkout" aria-label="Checkout">
+    <div class="panel">
+      <h2>Checkout</h2>
+      <p class="total"><span>Amount to pay</span><span class="total-amount"></span></p>
+
+      <!-- Input items: text, tel, radio buttons, check box, text area -->
+      <div class="fields">
+        <label class="field">Full name
+          <input type="text" name="customer-name" placeholder="Juan Dela Cruz" autocomplete="name">
+        </label>
+        <label class="field">Mobile number
+          <input type="tel" name="customer-phone" placeholder="09XX XXX XXXX" autocomplete="tel">
+        </label>
+
+        <div class="choices" role="radiogroup" aria-label="Order type">
+          <span class="lbl">How will you get your order?</span>
+          <input class="chip-input" type="radio" name="order-type" id="type-dine" checked>
+          <label for="type-dine">Dine in</label>
+          <input class="chip-input" type="radio" name="order-type" id="type-take">
+          <label for="type-take">Take out</label>
+          <input class="chip-input" type="radio" name="order-type" id="type-deliver">
+          <label for="type-deliver">Delivery</label>
+        </div>
+
+        <label class="check"><input type="checkbox" name="gift-box"> Add gift packaging</label>
+
+        <label class="field">Notes for the baker (optional)
+          <textarea name="notes" rows="2" placeholder="Candles, allergies, message on the cake..."></textarea>
+        </label>
+      </div>
+
+      <h3 class="pay-title">Choose how to pay</h3>
+      <div class="pay-options">
+        <!-- Clicking a button below goes straight to "Paid Successfully!" -->
+        <label class="pay-btn" for="step-paid-cash">
+          <strong>Pay with cash</strong>
+          <span>Pay when you receive your order</span>
+        </label>
+        <label class="pay-btn" for="step-paid-card">
+          <strong>Pay by card</strong>
+          <span>Debit or credit card</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <label class="btn" for="step-cart">Back to cart</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCREEN: PAID ===================== -->
+  <section class="overlay overlay-paid" aria-label="Payment complete">
+    <div class="panel panel-paid">
+      <div class="checkmark" aria-hidden="true"></div>
+      <h2>Paid Successfully!</h2>
+      <p class="paid-method paid-cash">Payment method: Cash</p>
+      <p class="paid-method paid-card">Payment method: Card</p>
+      <p class="total"><span>Total paid</span><span class="total-amount"></span></p>
+      <p>Thank you for ordering from P&acirc;tisserie Plain.</p>
+      <div class="actions">
+        <!-- type="reset" clears the cart and takes you back to the shop -->
+        <button class="btn btn-primary" type="reset">Start a new order</button>
+      </div>
+    </div>
+  </section>
+
+</form>
+
+<!-- =====================================================
+     CONTACT US
+     This section is placed OUTSIDE the shop form on purpose
+     (a form cannot be placed inside another form).
+     ===================================================== -->
+<section class="section contact" id="contact">
+  <h2>Contact us</h2>
+  <p class="section-intro">Questions, special orders or feedback? Send us a message and we will reply as soon as we can.</p>
+
+  <div class="contact-grid">
+
+    <!-- EDIT THE DETAILS BELOW to your real shop information -->
+    <dl class="contact-info">
+      <dt>Phone</dt>
+      <dd>0900 000 0000</dd>
+      <dt>Email</dt>
+      <dd>youremail@example.com</dd>
+      <dt>Address</dt>
+      <dd>938 Aurora Blvd., Cubao, Quezon City</dd>
+      <dt>Opening hours</dt>
+      <dd>Monday to Sunday, 8:00 AM to 8:00 PM</dd>
+    </dl>
+
+    <!-- CONTACT FORM
+         action="mailto:..." opens the visitor's email app with the message filled in.
+         >>> CHANGE youremail@example.com to your own email address. <<< -->
+    <form class="contact-form" action="mailto:youremail@example.com" method="post" enctype="text/plain">
+      <label class="field">Your name
+        <input type="text" name="name" placeholder="Juan Dela Cruz" required autocomplete="name">
+      </label>
+      <label class="field">Your email
+        <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+      </label>
+      <label class="field">What is this about?
+        <select name="topic">
+          <option>General question</option>
+          <option>Special or bulk order</option>
+          <option>Feedback</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label class="field">Message
+        <textarea name="message" rows="5" placeholder="Write your message here..." required></textarea>
+      </label>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>&copy; 2026 P&acirc;tisserie Plain. ITE 011 Final Project, Group 3, Technological Institute of the Philippines, Quezon City.</p>
+  <p><a href="#contact">Contact us</a> &nbsp;|&nbsp; <a href="developers.html">Meet the web developers</a></p>
+</footer>
+
+</body>
+</html>
