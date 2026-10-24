@@ -1,5 +1,5 @@
 /* =====================================================================
-   cart-rules.css  -  THE "BRAIN" OF THE CART (no JavaScript needed)
+   cart-rules.css  -  THE "BRAIN" OF THE CART 
    Pâtisseries Plain  |  ITE 011 Final Project  |  Group 3
 
    HOW IT WORKS
@@ -7,11 +7,6 @@
    2. When a radio is :checked, the rules below ADD the price to a
       CSS counter called "total" (and the quantity to "items").
    3. The cart bar and the cart page simply print those counters.
-
-   WHEN TO EDIT THIS FILE
-   - Only if you change a PRICE. Change it in index.html (the label the
-     customer sees) AND in the matching rules below (the math).
-   - Tip: use Notepad's Edit > Replace to change every "299" at once.
    ===================================================================== */
 
 /* ---- 1. Create all counters (they all start at 0) ---- */
