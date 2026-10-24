@@ -1673,19 +1673,21 @@
     </dl>
 
    <!-- CONTACT FORM
-     action="mailto:..." opens the visitor's email app with the subject and message filled in.
-     The names "subject" and "body" are special: email apps put them in the Subject and message boxes. -->
-<form class="contact-form" action="mailto:patisseriesplain@gmail.com" method="get">
+     action="mailto:..." opens the visitor's email app.
+     The text after ?subject= becomes the email's subject line. -->
+<form class="contact-form"
+      action="mailto:patisseriesplain@gmail.com?subject=Website%20message%20from%20Patisserie%20Plain"
+      method="post" enctype="text/plain">
   <label class="field">What is this about?
-    <select name="subject">
-      <option value="Website message: General question">General question</option>
-      <option value="Website message: Special or bulk order">Special or bulk order</option>
-      <option value="Website message: Feedback">Feedback</option>
-      <option value="Website message: Other">Other</option>
+    <select name="Topic">
+      <option>General question</option>
+      <option>Special or bulk order</option>
+      <option>Feedback</option>
+      <option>Other</option>
     </select>
   </label>
   <label class="field">Message
-    <textarea name="body" rows="5" placeholder="Write your message here..." required></textarea>
+    <textarea name="Message" rows="5" placeholder="Write your message here..." required></textarea>
   </label>
   <button class="btn btn-primary" type="submit">Send message</button>
 </form>
