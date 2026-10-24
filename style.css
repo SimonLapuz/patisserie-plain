@@ -1,18 +1,13 @@
 /* =====================================================================
    FILE NAME : style.css
-   PROJECT   : Pâtisserie Plain - E-Commerce Website
+   PROJECT   : Pâtisseries Plain - E-Commerce Website
    COURSE    : ITE 011 - Introduction to Computing | GROUP 3
 
    This is the EXTERNAL style sheet. Both index.html and developers.html
-   use it so every page has the same look.
-
-   QUICK EDIT GUIDE
-   - Change colors   : edit the values in ":root" just below.
-   - Change fonts    : edit --serif and --sans.
-   - Card layout     : search for ".card".
+   
    ===================================================================== */
 
-/* ---------- 1. COLORS AND FONTS (edit here) ---------- */
+/* ---------- 1. COLORS AND FONTS --------- */
 :root {
   --paper:     #fbfdf9;   /* page background */
   --mint:      #e6f1e0;   /* soft green sections */
@@ -191,7 +186,7 @@ img, video, iframe { max-width: 100%; }
   margin-top: 1.6rem;
 }
 
-/* Double-decker macaron drawn with CSS only */
+/* Double-decker macaron */
 .macaron {
   display: flex;
   flex-direction: column;
